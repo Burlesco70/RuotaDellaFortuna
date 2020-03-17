@@ -19,7 +19,7 @@ class GiocatoreRDF:
 
 class GiocatoreRDFUmano(GiocatoreRDF):
     def __init__(self,nome: str):
-        GiocatoreRDF.__init__(self,nome)
+        super().__init__(nome)
 
     def ottieniMossa(self, indizio: str, fraseMacherata: str, tentativi: list) -> str:
         print('''{} ha EUR {}\nIndizio: {}\nFrase: {}\nTentativo: {}\n'''.format(self.nome, self.montepremi, indizio, fraseMacherata, ', '.join(sorted(tentativi))))
