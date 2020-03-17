@@ -1,0 +1,78 @@
+[
+    {
+        "tipo": "soldi",
+        "testo": "EUR 950",
+        "valore": 950,
+        "premio": "Un viaggio al lago d'Orta (Miasino)!"
+    },
+    {
+        "tipo": "bancarotta",
+        "testo": "Bancarotta",
+        "premio": false
+    },
+    {
+        "tipo": "perditurno",
+        "testo": "Perdi il turno",
+        "premio": false
+    },
+    {
+        "tipo": "soldi",
+        "testo": "EUR 2500",
+        "valore": 2500,
+        "premio": false
+    },
+    {
+        "tipo": "soldi",
+        "testo": "EUR 900",
+        "valore": 900,
+        "premio": false
+    },
+    {
+        "tipo": "soldi",
+        "testo": "EUR 700",
+        "valore": 700,
+        "premio": false
+    },
+    {
+        "tipo": "soldi",
+        "testo": "EUR 600",
+        "valore": 600,
+        "premio": false
+    },
+    {
+        "tipo": "soldi",
+        "testo": "EUR 800",
+        "valore": 800,
+        "premio": false
+    },
+    {
+        "tipo": "soldi",
+        "testo": "Un milione!",
+        "valore": 1000000,
+        "premio": false
+    },
+    {
+        "tipo": "soldi",
+        "testo": "EUR 650",
+        "valore": 650,
+        "premio": "Una nuova auto elettrica!"
+    },
+    {
+        "tipo": "soldi",
+        "testo": "900",
+        "valore": 900,
+        "premio": false
+    },
+    {
+        "tipo": "soldi",
+        "testo": "EUR 700",
+        "valore": 700,
+        "premio": false
+    },
+    {
+        "tipo": "soldi",
+        "testo": "EUR 600",
+        "valore": 600,
+        "premio": false
+    }
+]
