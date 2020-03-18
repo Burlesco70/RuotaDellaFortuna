@@ -37,7 +37,8 @@ class GiocatoreRDFComputer(GiocatoreRDF):
 
     # Usa la strategia migliore (le lettere ordinate per frequenza) in base al livello
     # Casualmente decide se usarle o no
-    def lanciaMonetinaPerLivello(self) -> bool:
+    # Metodo privato
+    def __lanciaMonetinaPerLivello(self) -> bool:
         numero_casuale = random.randint(1, 10)
         if numero_casuale <= self.livello_difficolta:
             return True
@@ -45,7 +46,8 @@ class GiocatoreRDFComputer(GiocatoreRDF):
             return False
 
     # Lista lettere selezionabili dal computer
-    def letterePossibiliPerTentativo(self, tentativi: list) -> list:
+    # Metodo privato
+    def __letterePossibiliPerTentativo(self, tentativi: list) -> list:
         possibili_lettere = []
         for lettera in LETTERE:
             # Se è una vocale ma non ci sono soldi o il computer ha già chiesto una vocale nel turno, 
@@ -60,11 +62,11 @@ class GiocatoreRDFComputer(GiocatoreRDF):
     
     # Mossa computer
     def ottieniMossa(self, indizio: str, fraseMacherata: str, tentativi: list) -> str:
-        lppt = self.letterePossibiliPerTentativo(tentativi)
+        lppt = self.__letterePossibiliPerTentativo(tentativi)
         if lppt == []:
             return 'passo'
         # Se il computer gioca "bene", usa la FREQUENZA_ORDINATA_LETTERE
-        if self.lanciaMonetinaPerLivello():
+        if self.__lanciaMonetinaPerLivello():
             for lettera in GiocatoreRDFComputer.FREQUENZA_ORDINATA_LETTERE:
                 if (lettera in lppt):
                     return lettera
