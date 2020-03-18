@@ -110,7 +110,7 @@ def ottieniNumeroTra(prompt, min: int, max: int) -> int:
 #    { "tipo": "cash", "testo": "EUR 950", "valore": 950, "premio": "A trip to Ann Arbor!" },
 #    { "tipo": "bancarotta", "testo": "Bancarotta", "premio": false },
 #    { "tipo": "perditurno", "testo": "Perdi il turno", "premio": false }
-def giraRuota():
+def giraRuota() -> dict:
     with open("ruota.json", 'r') as f:
         ruota = json.loads(f.read())
         return random.choice(ruota)
