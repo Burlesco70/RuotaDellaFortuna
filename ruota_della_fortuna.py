@@ -22,12 +22,12 @@ class GiocatoreRDFUmano(GiocatoreRDF):
         super().__init__(nome)
 
     def ottieniMossa(self, indizio: str, fraseMacherata: str, tentativi: list) -> str:
-        print('''{} ha EUR {}\nIndizio: {}\nFrase: {}\nTentativo: {}\n'''.format(self.nome, self.montepremi, indizio, fraseMacherata, ', '.join(sorted(tentativi))))
+        print('''{} ha EUR {}\nIndizio: {}\nFrase: {}\nTentativi: {}\n'''.format(self.nome, self.montepremi, indizio, fraseMacherata, ', '.join(sorted(tentativi))))
         tentativo = input("Prova con una lettera, la frase o 'esci' o 'passo': ")
         return tentativo
 
 class GiocatoreRDFComputer(GiocatoreRDF):  
-    FREQUENZA_ORDINATA_LETTERE = 'AEIONLRTSCDPUMVGHFBQZWYKJX' #Italiano
+    FREQUENZA_ORDINATA_LETTERE = 'AEIONLRTSCDPUMVGHFBQZWYKJX' #Lettere più usate in Italiano, in ordine
     def __init__(self, nome: str, livello_difficolta: int):
         self.nome = nome
         self.livello_difficolta = livello_difficolta
@@ -105,9 +105,9 @@ def ottieniNumeroTra(prompt, min: int, max: int) -> int:
 
 # Gira la ruota per ottenre un premio a caso
 # Esempi:
-#    { "type": "cash", "text": "EUR 950", "value": 950, "prize": "A trip to Ann Arbor!" },
-#    { "type": "bankrupt", "text": "Bankrupt", "prize": false },
-#    { "type": "loseturn", "text": "Lose a turn", "prize": false }
+#    { "tipo": "cash", "testo": "EUR 950", "valore": 950, "premio": "A trip to Ann Arbor!" },
+#    { "tipo": "bancarotta", "testo": "Bancarotta", "premio": false },
+#    { "tipo": "perditurno", "testo": "Perdi il turno", "premio": false }
 def giraRuota():
     with open("ruota.json", 'r') as f:
         ruota = json.loads(f.read())
@@ -115,7 +115,7 @@ def giraRuota():
 
 # Restituisce indizio & frase (come tupla) da indovinare
 # Esempio:
-#     ("Artist & Song", "Whitney Houston's I Will Always Love You")
+#     ("Artista e canzone", "Whitney Houston I Will Always Love You")
 def ottieniCasualmenteIndizioFrase() -> tuple:
     with open("frasi.json", 'r') as f:
         frasi = json.loads(f.read())
@@ -124,10 +124,10 @@ def ottieniCasualmenteIndizioFrase() -> tuple:
         return (indizio, frase.upper())
 
 # Data una frase e un elenco di tentativi di lettere uscite, restituisce una versione oscurata
-# Example:
+# Esempio:
 #     tentativi: ['L', 'B', 'E', 'R', 'N', 'P', 'K', 'X', 'Z']
 #     frase:  "GLACIER NATIONAL PARK"
-#     returns> "_L___ER N____N_L P_RK"
+#     ritorna> "_L___ER N____N_L P_RK"
 def mascheraFrase(frase: str, tentativi: str) -> str:
     rv = ''
     for s in frase:
@@ -151,16 +151,16 @@ print(titolo)
 print('='*len(titolo))
 print('')
 
-num_umani = ottieniNumeroTra('Quanti giocatori (umani)?', 0, 10)
+num_umani = ottieniNumeroTra('Quanti giocatori (umani)?\n', 0, 10)
 
 # Crea le istanze dei giocatori umani
-giocatori_umani = [GiocatoreRDFUmano(input('Nome giocatore #{}'.format(i+1))) for i in range(num_umani)]
+giocatori_umani = [GiocatoreRDFUmano(input('Nome giocatore #{}\n'.format(i+1))) for i in range(num_umani)]
 
-num_computer = ottieniNumeroTra('Quanti giocatori mossi dal computer?', 0, 10)
+num_computer = ottieniNumeroTra('Quanti giocatori mossi dal computer?\n', 0, 10)
 
 # Per i giocatori computer, chiede livello
 if num_computer >= 1:
-    livello_difficolta = ottieniNumeroTra('Livello computer? (1-10)', 1, 10)
+    livello_difficolta = ottieniNumeroTra('Livello computer? (1-10)\n', 1, 10)
 
 # Crea le istanze dei giocatori computer
 giocatori_computer = [GiocatoreRDFComputer('Computer {}'.format(i+1), livello_difficolta) for i in range(num_computer)]
