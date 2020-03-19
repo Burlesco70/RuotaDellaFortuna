@@ -1,9 +1,31 @@
 class GiocatoreRDF:
     def __init__(self,nome: str):
-        self.nome = nome
+        self._setNome(nome)
         self.montepremi = 0
         self.lista_premi = []
         self.richiestaVocale = False
+
+    # Definisco nome come property, in modo da "controllare" il valore che gli viene attributo
+    def _setNome(self, nome: str):
+        if nome:
+            if len(nome) == 1:
+                raise ValueError('Nessuno ha un nome di un carattere solo!')                
+            elif nome.isdigit():
+                raise ValueError('Inserisci un nome non un numero!')                
+            else:
+                # Se qualcuno prova a inserire un numero decimale è un perverso...
+                try:
+                    val = float(nome)
+                except ValueError:
+                    # Non è neppure float, accetto il nome
+                    self._nome = nome
+                else:
+                    raise ValueError('Ma allora sei perverso! Inserisci un nome non un numero decimale!')                
+        else:
+            raise ValueError('Inserisci un nome!')
+    def _getNome(self) -> str:
+        return self._nome    
+    nome = property(_getNome, _setNome)
 
     def aggiungiVincita(self, vincita: int):
         self.montepremi = self.montepremi + vincita
@@ -29,16 +51,13 @@ class GiocatoreRDFUmano(GiocatoreRDF):
 class GiocatoreRDFComputer(GiocatoreRDF):  
     FREQUENZA_ORDINATA_LETTERE = 'AEIONLRTSCDPUMVGHFBQZWYKJX' #Lettere più usate in Italiano, in ordine
     def __init__(self, nome: str, livello_difficolta: int):
-        self.nome = nome
+        super().__init__(nome)
         self.livello_difficolta = livello_difficolta
-        self.lista_premi = []
-        self.montepremi = 0
-        self.richiestaVocale = False
 
     # Usa la strategia migliore (le lettere ordinate per frequenza) in base al livello
     # Casualmente decide se usarle o no
     # Metodo privato
-    def __lanciaMonetinaPerLivello(self) -> bool:
+    def _lanciaMonetinaPerLivello(self) -> bool:
         numero_casuale = random.randint(1, 10)
         if numero_casuale <= self.livello_difficolta:
             return True
@@ -47,7 +66,7 @@ class GiocatoreRDFComputer(GiocatoreRDF):
 
     # Lista lettere selezionabili dal computer
     # Metodo privato
-    def __letterePossibiliPerTentativo(self, tentativi: list) -> list:
+    def _letterePossibiliPerTentativo(self, tentativi: list) -> list:
         possibili_lettere = []
         for lettera in LETTERE:
             # Se è una vocale ma non ci sono soldi o il computer ha già chiesto una vocale nel turno, 
@@ -62,11 +81,11 @@ class GiocatoreRDFComputer(GiocatoreRDF):
     
     # Mossa computer
     def ottieniMossa(self, indizio: str, fraseMacherata: str, tentativi: list) -> str:
-        lppt = self.__letterePossibiliPerTentativo(tentativi)
+        lppt = self._letterePossibiliPerTentativo(tentativi)
         if lppt == []:
             return 'passo'
         # Se il computer gioca "bene", usa la FREQUENZA_ORDINATA_LETTERE
-        if self.__lanciaMonetinaPerLivello():
+        if self._lanciaMonetinaPerLivello():
             for lettera in GiocatoreRDFComputer.FREQUENZA_ORDINATA_LETTERE:
                 if (lettera in lppt):
                     return lettera
@@ -156,7 +175,16 @@ print('')
 num_umani = ottieniNumeroTra('Quanti giocatori (umani)?\n', 0, 10)
 
 # Crea le istanze dei giocatori umani
-giocatori_umani = [GiocatoreRDFUmano(input('Nome giocatore #{}\n'.format(i+1))) for i in range(num_umani)]
+giocatori_umani = []
+for i in range(num_umani):
+    while True:
+        try:
+            g = GiocatoreRDFUmano(input('Nome giocatore #{}\n'.format(i+1)))
+        except ValueError as e:
+            print(e)
+        else:
+            giocatori_umani.append(g)
+            break        
 
 num_computer = ottieniNumeroTra('Quanti giocatori mossi dal computer?\n', 0, 10)
 
